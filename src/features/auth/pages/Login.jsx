@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PrivateRoute = () => {
+const Login = () => {
     return (
         <div>
-            
+            logIn
         </div>
     );
 };
 
-export default PrivateRoute;
+export default Login;
