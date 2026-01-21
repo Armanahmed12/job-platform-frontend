@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     Component: AuthLayout,
     children: [
       {
-        index : true,
+        path : "login",
         Component: Login,
       },
       {
