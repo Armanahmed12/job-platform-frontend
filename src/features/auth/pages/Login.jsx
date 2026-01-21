@@ -76,7 +76,7 @@ const Login = () => {
               </button>
             </div>
           </form>
-            <SocialLoginButtons />
+            <SocialLoginButtons from={from}/>
           <p className="text-center text-gray-500 ">
             Don't have an account?{" "}
             <span className="text-blue-600 font-bold underline text-lg">

@@ -67,7 +67,7 @@ const Register = () => {
                 <button className="btn btn-primary mt-4">Create Account</button>
               </fieldset>
             </form>
-            <SocialLoginButtons/>
+            <SocialLoginButtons from={from}/>
             <p className="text-center text-gray-500 ">Have an account? <span className="text-blue-600 font-bold underline text-lg"><NavLink to={"/auth/login"} state={{ from: location.state?.from }}>Login</NavLink></span> </p>
           </div>
         </div>
