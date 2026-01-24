@@ -86,7 +86,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t">
+      <div className="border-t border-gray-400">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500 gap-2">
           <p>© 2026 JobBridge. All rights reserved.</p>
 
