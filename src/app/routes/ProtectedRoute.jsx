@@ -1,14 +1,15 @@
-import { useContext } from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import AuthContext from "../app/providers/AuthContext";
+import React from "react";
+import useAuth from "@/features/auth/hooks/useAuth";
+import Loading from "@/components/common/Loading";
+import { Navigate, useLocation } from "react-router";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading } = useAuth();
   const location = useLocation();
 
   // Optional but recommended: wait for auth state
   if (loading) {
-    return null; // or a loader/spinner
+    return <Loading/>; // or a loader/spinner
   }
 
   // 🔐 Not logged in → redirect to login

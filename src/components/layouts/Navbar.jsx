@@ -9,7 +9,10 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to={"/"}>Home</NavLink>
+        <NavLink className="hover:bg-white hover:text-black rounded mr-2" to={"/"}>Home</NavLink>
+      </li>
+      <li>
+        <NavLink className="hover:bg-white hover:text-black rounded mr-2" to="/add-job">Add Job</NavLink>
       </li>
     </>
   );
@@ -59,7 +62,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             {links}
           </ul>

@@ -5,6 +5,8 @@ import Home from "../../pages/Home";
 import Login from "../../pages/auth/Login";
 import Register from "../../pages/auth/Register";
 import JobDetailPage from "@/pages/JobDetailPage";
+import ProtectedRoute from "./ProtectedRoute";
+import { axiosPublic } from "@/lib/axiosPublic";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,7 +18,14 @@ const router = createBrowserRouter([
       },
       {
         path : "/jobs/:jobId",
-        element: <JobDetailPage/>
+        element: <ProtectedRoute>
+           <JobDetailPage/>
+        </ProtectedRoute>,
+        loader: ({params})=> axiosPublic.get(`/jobs/${params.jobId}`) 
+      },
+      {
+        path: "/add-job",
+        element: 
       }
     ],
   },
