@@ -1,5 +1,5 @@
 import { FaGoogle } from "react-icons/fa";
-import { loginWithGoogleService } from "../services/socialAuth";
+import { loginWithGoogleService } from "../api/socialAuth";
 import { useNavigate } from "react-router";
 const socialLogins = [
   { name: "Google", login: loginWithGoogleService, icon: <FaGoogle /> },

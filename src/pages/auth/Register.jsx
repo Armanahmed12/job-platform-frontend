@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import AnimatedIcon from "../../../components/common/AnimatedIcon";
-import registerAnimation from "../../../assets/lottie/Register.json";
-import AuthContext from "../../../app/providers/AuthContext";
+import AnimatedIcon from "../../components/common/AnimatedIcon";
+import registerAnimation from "../../assets/lottie/Register.json";
+import AuthContext from "../../app/providers/AuthContext";
 import Swal from "sweetalert2";
 import { NavLink, useLocation, useNavigate } from "react-router";
-import SocialLoginButtons from "../components/SocialLoginButtons";
+import SocialLoginButtons from "../../features/auth/components/SocialLoginButtons";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);

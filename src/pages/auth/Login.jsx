@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
 import { useLocation, useNavigate } from "react-router";
-import AuthContext from "../../../app/providers/AuthContext";
-import loginAnimation from "../../../assets/lottie/login.json";
-import AnimatedIcon from "../../../components/common/AnimatedIcon";
+import AuthContext from "../../app/providers/AuthContext";
+import loginAnimation from "../../assets/lottie/login.json";
+import AnimatedIcon from "../../components/common/AnimatedIcon";
 import { NavLink } from "react-router";
-import SocialLoginButtons from "../components/SocialLoginButtons";
+import SocialLoginButtons from "../../features/auth/components/SocialLoginButtons";
 
 const Login = () => {
   const { loginUser } = useContext(AuthContext);

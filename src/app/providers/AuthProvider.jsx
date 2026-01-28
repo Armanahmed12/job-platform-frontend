@@ -6,8 +6,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import auth from "../../firebase/firebase.init";
-import { loginWithGoogleService } from "../../features/auth/services/socialAuth";
+import auth from "../../lib/firebase.init";
+import { loginWithGoogleService } from "../../features/auth/api/socialAuth";
+// import { loginWithGoogleService } from "../../features/auth/services/socialAuth";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

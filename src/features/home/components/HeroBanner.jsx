@@ -1,8 +1,8 @@
 import React from "react";
 // eslint-disable-next-line no-unused-vars
-import { motion } from "motion/react"
-import team1 from "../../assets/team/team1.jpg";
-import team2 from "../../assets/team/team2.jpg";
+import { motion } from "motion/react";
+import team1 from "@assets/team/team1.jpg";
+import team2 from "@assets/team/team2.jpg";
 
 const HeroBanner = () => {
   return (
@@ -36,9 +36,8 @@ const HeroBanner = () => {
         <div className="w-full lg:w-3/5 lg:text-left">
           <div className="overflow-hidden">
             <motion.h1
-             initial={{ y: "100%", opacity: 0, scale: 0.90 }}
+              initial={{ y: "100%", opacity: 0, scale: 0.9 }}
               animate={{ y: "0%", opacity: 1, scale: 1 }}
-
               transition={{
                 duration: 1,
                 delay: 1,

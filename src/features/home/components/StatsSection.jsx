@@ -47,7 +47,7 @@ const StatsSection = () => {
               </h2>
               <h3 className="text-lg font-bold text-gray-800">{stat.label}</h3>
               <p className="text-gray-500 text-sm max-w-[220px] mx-auto">
-                We always provide people a complete solution upon focused of any business
+                We always provide people a complete solution upon focused of any business.
               </p>
             </div>
           ))}

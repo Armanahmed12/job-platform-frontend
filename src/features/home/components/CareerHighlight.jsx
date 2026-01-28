@@ -1,7 +1,7 @@
 import React from "react";
-import officeColleges from '../../assets/office-workers.avif'
-import img_chart from "../../assets/img-chart.png"
-import controlCardImg from "../../assets/img-chart.png"
+import officeColleges from '../../../assets/office-workers.avif'
+import img_chart from "../../../assets/img-chart.png"
+import controlCardImg from "../../../assets/img-chart.png"
 
 const CareerHighlight = () => {
   return (
