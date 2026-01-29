@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const axiosPublic = axios.create({
-//   baseURL: import.meta.env.VITE_API_URL,
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1",
+  baseURL: "http://192.168.0.108:3000/api/v1",
+  // baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1",
 });

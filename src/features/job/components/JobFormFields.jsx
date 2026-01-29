@@ -1,123 +1,188 @@
-import React from 'react';
+import React from "react";
+
+const Input = ({ label, ...props }) => (
+  <div className="flex flex-col">
+    {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+    <input
+      {...props}
+      className="input input-bordered focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none transition-all rounded-md"
+    />
+  </div>
+);
+
+const Textarea = ({ label, ...props }) => (
+  <div className="flex flex-col ">
+    {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+    <textarea
+      {...props}
+      className="textarea textarea-bordered focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all rounded-md focus:outline-none"
+    />
+  </div>
+);
+
+const Select = ({ label, children, ...props }) => (
+  <div className="flex flex-col">
+    {label && <label className="mb-1 font-medium text-gray-700">{label}</label>}
+    <select
+      {...props}
+      className="select select-bordered focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all rounded-md focus:outline-none"
+    >
+      {children}
+    </select>
+  </div>
+);
 
 const JobFormFields = ({ onSubmit, userEmail }) => {
   return (
-    <div>
-      <h2 className="text-3xl mb-6">Post a new Job</h2>
+    <div className="max-w-4xl mx-auto bg-white rounded-xl p-8 mt-6 shadow-xl shadow-blue-300 border-2 border-blue-200 my-10">
+      <h2 className="text-4xl font-bold text-gray-800 mb-15 text-center">
+        Post a New Job
+      </h2>
 
-      <form onSubmit={onSubmit} className="card-body space-y-4">
-        {/* Job title */}
-        <input
-          type="text"
-          name="title"
-          placeholder="Job Title"
-          className="input input-bordered"
-          required
-        />
+      <form onSubmit={onSubmit} className="space-y-6">
+        {/* Job Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Input
+            name="title"
+            label="Job Title"
+            placeholder="Job Title"
+            required
+          />
+          <Input
+            name="location"
+            label="Location"
+            placeholder="Job Location"
+            required
+          />
+        </div>
 
-        {/* Job location */}
-        <input
-          type="text"
-          name="location"
-          placeholder="Job Location"
-          className="input input-bordered"
-          required
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Select name="jobType" label="Job Type" required>
+            <option value="">Select Job Type</option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Intern</option>
+          </Select>
 
-        {/* Job Type */}
-        <select name="jobType" className="select select-bordered" required>
-          <option value="">Pick a Job type</option>
-          <option>Full-time</option>
-          <option>Intern</option>
-          <option>Part-time</option>
-        </select>
-
-        {/* Job Field */}
-        <select name="category" className="select select-bordered" required>
-          <option value="">Pick a Job Field</option>
-          <option>Engineering</option>
-          <option>Marketing</option>
-          <option>Finance</option>
-          <option>Teaching</option>
-        </select>
+          <Select name="category" label="Job Field" required>
+            <option value="">Select Job Field</option>
+            <option>Engineering</option>
+            <option>Marketing</option>
+            <option>Finance</option>
+            <option>Teaching</option>
+          </Select>
+        </div>
 
         {/* Salary */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <input name="min" placeholder="Min Salary" className="input input-bordered" required />
-          <input name="max" placeholder="Max Salary" className="input input-bordered" required />
-          <select name="currency" className="select select-bordered" required>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Input
+            name="min"
+            label="Min Salary"
+            placeholder="Min Salary"
+            required
+          />
+          <Input
+            name="max"
+            label="Max Salary"
+            placeholder="Max Salary"
+            required
+          />
+          <Select name="currency" label="Currency" required>
             <option value="">Currency</option>
             <option>BDT</option>
             <option>USD</option>
             <option>INR</option>
-          </select>
+          </Select>
         </div>
 
         {/* Description */}
-        <textarea
+        <Textarea
           name="description"
-          placeholder="Job Description"
-          className="textarea textarea-bordered"
+          label="Job Description"
+          placeholder="Describe the job..."
           required
         />
 
-        {/* Company */}
-        <input
-          name="company"
-          placeholder="Company Name"
-          className="input input-bordered"
-          required
-        />
+        {/* Requirements & Responsibilities */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Requirements */}
+          <div>
+            <Textarea
+              id="requirements"
+              name="requirements"
+              label="Requirements"
+              placeholder="Put each requirement on a new line"
+              required
+              aria-describedby="requirements-tip"
+            />
+            <p id="requirements-tip" className="text-sm text-gray-500 mt-2">
+              <span className="font-semibold">Tip:</span> Press Enter or use
+              commas to separate each point.
+            </p>
+          </div>
 
-        {/* Requirements */}
-        <textarea
-          name="requirements"
-          placeholder="Put each requirement on a new line"
-          className="textarea textarea-bordered"
-          required
-        />
+          {/* Responsibilities */}
+          <div>
+            <Textarea
+              id="responsibilities"
+              name="responsibilities"
+              label="Responsibilities"
+              placeholder="Put each responsibility on a new line"
+              required
+              aria-describedby="responsibilities-tip"
+            />
+            <p id="responsibilities-tip" className="text-sm text-gray-500 mt-2">
+              <span className="font-semibold">Tip:</span> Press Enter or use
+              commas to separate each point.
+            </p>
+          </div>
+        </div>
 
-        {/* Responsibilities */}
-        <textarea
-          name="responsibilities"
-          placeholder="Put each responsibility on a new line"
-          className="textarea textarea-bordered"
-          required
-        />
+        {/* Company Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Input
+            name="company"
+            label="Company Name"
+            placeholder="Company Name"
+            required
+          />
+          <Input
+            name="company_logo"
+            label="Company Logo URL"
+            placeholder="Logo URL"
+            required
+          />
+        </div>
 
-        {/* HR */}
-        <input
-          name="hr_name"
-          placeholder="HR Name"
-          className="input input-bordered"
-          required
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Input
+            name="hr_name"
+            label="HR Name"
+            placeholder="HR Name"
+            required
+          />
+          <Input
+            name="hr_email"
+            label="HR Email"
+            defaultValue={userEmail}
+            placeholder="HR Email"
+            required
+          />
+        </div>
 
-        <input
-          name="hr_email"
-          defaultValue={userEmail}
-          placeholder="HR Email"
-          className="input input-bordered"
-          required
-        />
-
-        {/* Deadline */}
-        <input
+        {/* Application Deadline */}
+        <Input
           type="date"
           name="applicationDeadline"
-          className="input input-bordered"
+          label="Application Deadline"
           required
         />
 
-        {/* Logo */}
-        <input
-          name="company_logo"
-          placeholder="Company Logo URL"
-          className="input input-bordered"
-          required
-        />
-
-        <button className="btn btn-primary mt-4">Submit</button>
+        <div className="group mt-10 mb-5">
+          <button className="w-full btn bg-blue-500 hover:bg-blue-700 text-white transform transition-transform duration-300 group-hover:-translate-y-1.5 shadow-lg shadow-blue-300 border-none">
+            Submit Job
+          </button>
+        </div>
       </form>
     </div>
   );

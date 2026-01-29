@@ -13,10 +13,18 @@ const useAddJob = () => {
       currency,
     };
 
-    jobData.requirements = jobData.requirements.split("\n");
-    jobData.responsibilities = jobData.responsibilities.split("\n");
+    const splitLines = value =>
+  value
+    .split(/\n|,/)
+    .map(item => item.trim())
+    .filter(Boolean);
 
+jobData.requirements = splitLines(jobData.requirements);
+jobData.responsibilities = splitLines(jobData.responsibilities);
+
+  
     const res = await axiosPublic.post("/jobs", jobData);
+
     return res.data;
   };
 

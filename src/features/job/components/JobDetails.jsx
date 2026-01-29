@@ -1,3 +1,4 @@
+import Loading from "@/components/common/Loading";
 import React from "react";
 import {
   FaMapMarkerAlt,
@@ -8,7 +9,10 @@ import {
 } from "react-icons/fa";
 
 const JobDetails = ({ jobData }) => {
-  if (!jobData) return <p>Loading...</p>;
+
+  if (!jobData) {
+    return <Loading/>
+  };
 
   const {
     title,

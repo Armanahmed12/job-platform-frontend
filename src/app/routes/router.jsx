@@ -6,6 +6,9 @@ import Login from "../../pages/auth/Login";
 import Register from "../../pages/auth/Register";
 import JobDetailPage from "@/pages/JobDetailPage";
 import ProtectedRoute from "./ProtectedRoute";
+// import { axiosPublic } from "@/lib/axiosPublic";
+import AddJobPage from "@/pages/AddJobPage";
+import axios from "axios";
 import { axiosPublic } from "@/lib/axiosPublic";
 const router = createBrowserRouter([
   {
@@ -17,16 +20,26 @@ const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path : "/jobs/:jobId",
-        element: <ProtectedRoute>
-           <JobDetailPage/>
-        </ProtectedRoute>,
-        loader: ({params})=> axiosPublic.get(`/jobs/${params.jobId}`) 
+        path: "/jobs/:jobId",
+        element: (
+          <ProtectedRoute>
+            <JobDetailPage />
+          </ProtectedRoute>
+        ),
+        loader: async ({ params }) => {
+          try {
+            const response = await axiosPublic.get(`/jobs/${params.jobId}`);
+            return response.data; // ✅ parsed data
+          } catch (error) {
+            console.error("Error fetching job:", error);
+            throw error; // this will trigger React Router's errorElement if defined
+          }
+        },
       },
       {
         path: "/add-job",
-        element: 
-      }
+        element: <AddJobPage />,
+      },
     ],
   },
   {
@@ -34,7 +47,7 @@ const router = createBrowserRouter([
     Component: AuthLayout,
     children: [
       {
-        path : "login",
+        path: "login",
         Component: Login,
       },
       {
@@ -46,3 +59,11 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
+// {
+//       path : "/jobs/:jobId",
+//       element: <ProtectedRoute>
+//          <JobDetailPage/>
+//       </ProtectedRoute>,
+//       loader: ({params})=> fetch(`http://192.168.0.108:3000/api/v1/jobs/${params.jobId}`)
+//     },

@@ -6,7 +6,7 @@ const JobDetailPage = () => {
     const {data : jobData} = useLoaderData();
     return (
         <div>
-             <JobDetails jobData={jobData.data}/>
+             <JobDetails jobData={jobData}/>
         </div>
     );
 };
