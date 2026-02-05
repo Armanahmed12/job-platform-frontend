@@ -11,6 +11,7 @@ let accessToken = null;
 // 🔹 Inject token from React
 export const setAxiosAccessToken = (token) => {
   accessToken = token;
+  console.log(token, "from 12 axiosSecure.js")
 };
 
 // 🔹 REQUEST interceptor (attach token)
@@ -29,10 +30,12 @@ axiosSecure.interceptors.request.use(
 axiosSecure.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log(error, "see the error 32")
     const originalRequest = error.config;
 
     const status = error.response?.status;
     const errorCode = error.response?.data?.errorCode;
+     console.log(status, errorCode, "see the error status 37");
     // ONLY refresh if token expired
     if (
       status === 401 &&

@@ -4,16 +4,20 @@ import Loading from "@/components/common/Loading";
 import { Navigate, useLocation } from "react-router";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+   const { loading, isAuthenticated } = useAuth();
   const location = useLocation();
   
+  console.log("loading=========================================>>>:", loading);
+
   // Optional but recommended: wait for auth state
   if (loading) {
+        console.log("12 protectedRoute.jsx from !loading")
+
     return <Loading/>; // or a loader/spinner
   }
 
   // 🔐 Not logged in → redirect to login
-  if (!user) {
+   if (!isAuthenticated) {
     return (
       <Navigate
         to="/auth/login"

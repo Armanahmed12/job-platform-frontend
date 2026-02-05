@@ -9,11 +9,13 @@ import {
 import auth from "../../lib/firebase.init";
 import { loginWithGoogleService } from "../../features/auth/api/socialAuth";
 import { setAxiosAccessToken } from "@/lib/axiosSecure";
+import { axiosPublic } from "@/lib/axiosPublic";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
+  const isAuthenticated = !!accessToken;
 
   // 🔹 Save access token (React + Axios)
   const saveAccessToken = (token) => {
@@ -32,18 +34,20 @@ const AuthProvider = ({ children }) => {
   };
 
   // 🔹 Login
- const loginUser = async (email, password) => {
-  setLoading(true);
-  try {
-    return await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    console.log("Firebase login error code(40 authProvider.jsx):", error.code);
-    throw error; // 🔴 IMPORTANT: rethrow it
-  } finally {
-    setLoading(false);
-  }
-};
-
+  const loginUser = async (email, password) => {
+    setLoading(true);
+    try {
+      return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(
+        "Firebase login error code(40 authProvider.jsx):",
+        error.code,
+      );
+      throw error; // 🔴 IMPORTANT: rethrow it
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 🔹 Google login
   const loginWithGoogle = async () => {
@@ -56,27 +60,50 @@ const AuthProvider = ({ children }) => {
   };
 
   // 🔹 SINGLE SOURCE OF TRUTH LOGOUT
- const logout = useCallback(async () => {
-  setLoading(true);
-  try {
-    await signOut(auth);
-  } catch (err) {
-    console.error("Logout error:", err);
-  } finally {
-    setAccessToken(null);
-    setAxiosAccessToken(null);
-    setLoading(false);
-  }
-}, []);
+  const logout = useCallback(async () => {
+    setLoading(true);
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
+      setAccessToken(null);
+      setAxiosAccessToken(null);
+      setLoading(false);
+    }
+  }, []);
 
+  // 🔹 Restore access token on page reload
+  useEffect(() => {
+    setLoading(true);
 
+    const restoreSession = async () => {
+      try {
+        const res = await axiosPublic.post("auth/refresh-token");
+        saveAccessToken(res.data.accessToken);
+        console.log(res.data?.accessToken, "------------------------------------------------------------------------------ token fom 83 authProvider.jsx")
+      } catch { /* empty */ } finally {
+        console.log("====================================================> false 85 authProvider.jsx")
+        setLoading(false);
+        console.log(loading)
+      }
+    };
+
+    restoreSession();
+  }, []);
 
   // 🔹 Firebase auth state listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      console.log(currentUser);
+      console.log(
+        currentUser,
+        "currentUser",
+        accessToken,
+        "now loading:",
+        loading,
+      );
     });
 
     return unsubscribe;
@@ -104,14 +131,13 @@ const AuthProvider = ({ children }) => {
       logout,
       accessToken,
       saveAccessToken,
+      isAuthenticated
     }),
-    [user, loading, logout, accessToken]
+    [user, loading, logout, accessToken, isAuthenticated],
   );
 
   return (
-    <AuthContext.Provider value={authInfo}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
 };
 

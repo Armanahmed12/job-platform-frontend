@@ -10,6 +10,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import AddJobPage from "@/pages/AddJobPage";
 import { axiosPublic } from "@/lib/axiosPublic";
 import MyJobPostsPage from "@/pages/MyJobPostsPage";
+import axiosSecure from "@/lib/axiosSecure";
+import { ensureAccessToken } from "@/lib/ensureAccessToken";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,26 +28,30 @@ const router = createBrowserRouter([
             <JobDetailPage />
           </ProtectedRoute>
         ),
-        loader: async ({ params }) => {
-          try {
-            const response = await axiosPublic.get(`/jobs/${params.jobId}`);
-            return response.data; // ✅ parsed data
-          } catch (error) {
-            console.error("Error fetching job:", error);
-            throw error; // this will trigger React Router's errorElement if defined
-          }
-        },
+        loader: ({ params }) => axiosPublic.get(`/jobs/${params.jobId}`),
       },
       {
         path: "/add-job",
-        element: <ProtectedRoute>
-           <AddJobPage />
-        </ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <AddJobPage />
+          </ProtectedRoute>
+        ),
       },
       {
-        path : "/jobs/my-job-posts",
-        element: <MyJobPostsPage/>
-      }
+        path: "/jobs/my-job-posts",
+        element: (
+          <ProtectedRoute>
+            <MyJobPostsPage />
+          </ProtectedRoute>
+        ),
+        loader: async () => {
+          await ensureAccessToken();
+          // setLoading(false);
+          const res = await axiosSecure.get("/jobs/my");
+          return res.data;
+        },
+      },
     ],
   },
   {
@@ -65,11 +71,3 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
-
-// {
-//       path : "/jobs/:jobId",
-//       element: <ProtectedRoute>
-//          <JobDetailPage/>
-//       </ProtectedRoute>,
-//       loader: ({params})=> fetch(`http://192.168.0.108:3000/api/v1/jobs/${params.jobId}`)
-//     },
