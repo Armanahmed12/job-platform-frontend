@@ -1,4 +1,4 @@
-import { axiosPublic } from "@/lib/axiosPublic";
+import axiosSecure from "@/lib/axiosSecure";
 
 const useAddJob = () => {
   const addJob = async (formElement) => {
@@ -23,8 +23,7 @@ jobData.requirements = splitLines(jobData.requirements);
 jobData.responsibilities = splitLines(jobData.responsibilities);
 
   
-    const res = await axiosPublic.post("/jobs", jobData);
-
+    const res = await axiosSecure.post("/jobs", jobData);
     return res.data;
   };
 

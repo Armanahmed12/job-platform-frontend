@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import JobCard from "./JobCard";
+import { axiosPublic } from "@/lib/axiosPublic";
 
 const JobsContainer = () => {
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading, user] = useState(true);
 
   useEffect(() => {
-    fetch("http://192.168.0.108:3000/api/v1/jobs")
-      .then(res => res.json())
-      .then(data => {
-        setJobs(data.data || []);
+    axiosPublic.get("/jobs")
+      .then(jobPosts => {
+        setJobs(jobPosts.data.data || []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  });
 
   return (
     <section className="max-w-7xl mx-auto px-4 pt-15">

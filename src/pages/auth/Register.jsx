@@ -5,38 +5,67 @@ import AuthContext from "../../app/providers/AuthContext";
 import Swal from "sweetalert2";
 import { NavLink, useLocation, useNavigate } from "react-router";
 import SocialLoginButtons from "../../features/auth/components/SocialLoginButtons";
+import { axiosPublic } from "@/lib/axiosPublic";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, saveAccessToken } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
   const from = location.state?.from?.pathname || "/";
 
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
+  const handleRegisterSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
     const formEntries = new FormData(e.target);
     const { email, password } = Object.fromEntries(formEntries);
-    createUser(email, password)
-      .then((result) => {
-        console.log("user created", result.user);
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "Account created successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+
+    // 1️⃣ Create Firebase user
+    const result = await createUser(email, password);
+    const user = result.user;
+
+    // 2️⃣ Get Firebase ID Token (VERY IMPORTANT)
+    const idToken = await user.getIdToken();
+
+    // 3️⃣ Send token to backend
+  const res =  await axiosPublic.post(
+      "/auth/login",
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      }
+    );
+  const accessToken = res.data?.accessToken;
+     saveAccessToken(accessToken);
+    // 4️⃣ Success UI
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Account created successfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
+    // 5️⃣ Redirect
+    navigate(from, { replace: true });
+
+  } catch (error) {
+    console.error("Register error:", error.message);
+
+    Swal.fire({
+      icon: "error",
+      title: "Registration failed",
+      text: error.message,
+    });
+  }
+};
 
   return (
     <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col sm:flex-row-reverse">
+      <div className="hero-content flex-col sm:flex-row-reverse py-10">
         <div className="text-center lg:text-left">
           <AnimatedIcon animation={registerAnimation} size={250}></AnimatedIcon>
         </div>
@@ -57,6 +86,7 @@ const Register = () => {
                 <label className="label">Password</label>
                 <input
                   type="password"
+                  defaultValue={'0pok97as'}
                   name="password"
                   className="input"
                   placeholder="Password"
@@ -67,6 +97,7 @@ const Register = () => {
                 <button className="btn btn-primary mt-4">Create Account</button>
               </fieldset>
             </form>
+            <div className="divider divider-neutral w-full mx-auto gap-2 before:bg-[#00040b53] after:bg-[#00040b53]">OR</div>
             <SocialLoginButtons from={from}/>
             <p className="text-center text-gray-500 ">Have an account? <span className="text-blue-600 font-bold underline text-lg"><NavLink to={"/auth/login"} state={{ from: location.state?.from }}>Login</NavLink></span> </p>
           </div>

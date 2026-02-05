@@ -8,8 +8,8 @@ import JobDetailPage from "@/pages/JobDetailPage";
 import ProtectedRoute from "./ProtectedRoute";
 // import { axiosPublic } from "@/lib/axiosPublic";
 import AddJobPage from "@/pages/AddJobPage";
-import axios from "axios";
 import { axiosPublic } from "@/lib/axiosPublic";
+import MyJobPostsPage from "@/pages/MyJobPostsPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,8 +38,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-job",
-        element: <AddJobPage />,
+        element: <ProtectedRoute>
+           <AddJobPage />
+        </ProtectedRoute>,
       },
+      {
+        path : "/jobs/my-job-posts",
+        element: <MyJobPostsPage/>
+      }
     ],
   },
   {
