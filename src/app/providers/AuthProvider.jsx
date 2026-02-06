@@ -81,11 +81,8 @@ const AuthProvider = ({ children }) => {
       try {
         const res = await axiosPublic.post("auth/refresh-token");
         saveAccessToken(res.data.accessToken);
-        console.log(res.data?.accessToken, "------------------------------------------------------------------------------ token fom 83 authProvider.jsx")
       } catch { /* empty */ } finally {
-        console.log("====================================================> false 85 authProvider.jsx")
         setLoading(false);
-        console.log(loading)
       }
     };
 
@@ -98,11 +95,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
       console.log(
-        currentUser,
-        "currentUser",
-        accessToken,
-        "now loading:",
-        loading,
+        currentUser
       );
     });
 

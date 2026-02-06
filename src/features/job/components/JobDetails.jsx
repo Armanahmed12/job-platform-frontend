@@ -7,12 +7,12 @@ import {
   FaBuilding,
   FaEnvelope,
 } from "react-icons/fa";
+import { Link } from "react-router";
 
 const JobDetails = ({ jobData }) => {
-
   if (!jobData) {
-    return <Loading/>
-  };
+    return <Loading />;
+  }
 
   const {
     title,
@@ -137,9 +137,11 @@ const JobDetails = ({ jobData }) => {
             <span className="font-semibold">Deadline:</span> {formattedDeadline}
           </p>
           <div className="inline-block group mt-4">
-            <button className=" btn bg-blue-500 hover:bg-blue-700 text-white btn-block  transform transition-transform duration-300 group-hover:-translate-y-1.5 shadow-lg shadow-blue-300 border-none">
-              Apply Now
-            </button>
+            <Link to={`/apply-job/${jobData._id}`}>
+              <button className=" btn bg-blue-500 hover:bg-blue-700 text-white btn-block  transform transition-transform duration-300 group-hover:-translate-y-1.5 shadow-lg shadow-blue-300 border-none">
+                Apply Now
+              </button>
+            </Link>
           </div>
         </div>
       </div>

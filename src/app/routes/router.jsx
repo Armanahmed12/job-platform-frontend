@@ -12,6 +12,8 @@ import { axiosPublic } from "@/lib/axiosPublic";
 import MyJobPostsPage from "@/pages/MyJobPostsPage";
 import axiosSecure from "@/lib/axiosSecure";
 import { ensureAccessToken } from "@/lib/ensureAccessToken";
+import ApplyJobPage from "@/pages/ApplyJobPage";
+import MyApplicationsPage from "@/pages/MyApplicationsPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,6 +54,22 @@ const router = createBrowserRouter([
           return res.data;
         },
       },
+      {
+        path: "/apply-job/:jobId",
+        element: <ApplyJobPage/>,
+        loader: ({ params }) => axiosPublic.get(`/jobs/${params.jobId}`),
+      },
+      {
+        path: "/my-applications",
+        element: <MyApplicationsPage/>,
+        // loader: () => axiosPublic.get("/applications"),
+         loader: async () => {
+          await ensureAccessToken();
+          // setLoading(false);
+          const res = await axiosSecure.get("/applications");
+          return res.data;
+        },
+      }
     ],
   },
   {

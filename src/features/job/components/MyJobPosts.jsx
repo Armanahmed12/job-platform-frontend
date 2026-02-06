@@ -6,88 +6,92 @@ const MyJobPosts = ({ job, index }) => {
     jobType,
     salaryRange,
     status,
+    applicationCount = 0, // Added a default value
   } = job;
+
+  // Dynamic colors based on status
+  const statusStyles = {
+    active: "bg-emerald-100 text-emerald-700 border-emerald-200",
+    closed: "bg-rose-100 text-rose-700 border-rose-200",
+    draft: "bg-amber-100 text-amber-700 border-amber-200",
+  };
 
   return (
     <tr
       className="
         group
-        relative
-        cursor-pointer
         transition-all
-        duration-200
-        hover:bg-base-200
+        duration-300
+        hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent
+        hover:shadow-[inset_4px_0_0_0_#570df8]
+        border-b border-base-200
       "
     >
-      {/* Left accent bar */}
-      <td className="relative pl-0">
-        <span className="absolute left-0 top-0 h-full w-1 bg-primary opacity-0 group-hover:opacity-100 transition" />
-        <span className="pl-4 font-semibold text-base-content/80">
+      {/* Index with a subtle glow on hover */}
+      <td className="py-4">
+        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-base-200 group-hover:bg-primary group-hover:text-primary-content transition-colors font-bold text-xs">
           {index + 1}
         </span>
       </td>
 
-      {/* Job */}
-      <td>
-        <div>
-          <p className="font-semibold text-base-content group-hover:text-primary transition">
+      {/* Job Info */}
+      <td className="py-4">
+        <div className="flex flex-col">
+          <span className="font-bold text-base-content group-hover:text-primary transition-colors">
             {title}
-          </p>
-          <p className="text-sm text-gray-500">
+          </span>
+          <span className="text-xs uppercase tracking-wider font-medium text-gray-400">
             {company}
-          </p>
+          </span>
         </div>
       </td>
 
-      {/* Location */}
-      <td className="text-sm">
-        {location}
+      {/* Location with Icon-like feel */}
+      <td className="py-4">
+        <div className="flex items-center gap-1 text-sm text-base-content/70">
+          <span className="text-primary opacity-50">📍</span> {location}
+        </div>
       </td>
 
-      {/* Type */}
-      <td>
-        <span className="badge badge-outline badge-sm">
+      {/* Job Type Badge */}
+      <td className="py-4">
+        <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-primary/20 bg-primary/5 text-primary">
           {jobType}
         </span>
       </td>
 
-      {/* Salary */}
-      <td className="font-medium text-sm">
-        {salaryRange.min}–{salaryRange.max}{" "}
-        {salaryRange.currency.toUpperCase()}
+      {/* Salary - More prominent */}
+      <td className="py-4">
+        <div className="text-sm font-semibold text-secondary">
+          {salaryRange.min.toLocaleString()} – {salaryRange.max.toLocaleString()}
+          <span className="ml-1 text-[10px] opacity-70">{salaryRange.currency.toUpperCase()}</span>
+        </div>
       </td>
 
-      {/* Status */}
-      <td>
-        <span
-          className={`badge badge-sm ${
-            status === "active"
-              ? "badge-success"
-              : "badge-error"
-          }`}
-        >
-          {status}
+      {/* Status - Custom Styled Badges */}
+      <td className="py-4">
+        <span className={`px-3 py-1 rounded-md text-xs font-bold border ${statusStyles[status] || statusStyles.active}`}>
+          {status.toUpperCase()}
         </span>
       </td>
 
-      {/* Action */}
-      <td className="text-right">
-        <button
-          className="
-            btn
-            btn-xs
-            btn-ghost
-            text-primary
-            opacity-0
-            group-hover:opacity-100
-            transition
-          "
-        >
-          View Applications
-        </button>
-        <p className="text-xs text-gray-500 mt-1">
-          0 applications
-        </p>
+      {/* Action Area */}
+      <td className="py-4 text-right">
+        <div className="flex flex-col items-end gap-1">
+          <button
+            className="
+              btn btn-sm btn-primary
+              shadow-lg shadow-primary/20
+              scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100
+              transition-all duration-300
+            "
+          >
+            View Applicants
+          </button>
+          <span className="text-[10px] font-medium text-gray-400 mr-2">
+            {applicationCount} applications
+          </span>
+        </div>
       </td>
     </tr>
   );

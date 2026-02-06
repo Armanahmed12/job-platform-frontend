@@ -1,11 +1,10 @@
-import { axiosPublic } from "@/lib/axiosPublic";
-import { setAxiosAccessToken } from "@/lib/axiosSecure";
+import axiosSecure, { setAxiosAccessToken } from "@/lib/axiosSecure";
 
 let refreshingPromise = null;
 
 export const ensureAccessToken = async () => {
   if (!refreshingPromise) {
-    refreshingPromise = axiosPublic
+    refreshingPromise = axiosSecure
       .post("auth/refresh-token")
       .then((res) => {
         setAxiosAccessToken(res.data.accessToken);

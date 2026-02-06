@@ -7,12 +7,9 @@ const ProtectedRoute = ({ children }) => {
    const { loading, isAuthenticated } = useAuth();
   const location = useLocation();
   
-  console.log("loading=========================================>>>:", loading);
 
   // Optional but recommended: wait for auth state
   if (loading) {
-        console.log("12 protectedRoute.jsx from !loading")
-
     return <Loading/>; // or a loader/spinner
   }
 
