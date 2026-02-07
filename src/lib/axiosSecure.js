@@ -2,7 +2,7 @@ import axios from "axios";
 import { axiosPublic } from "./axiosPublic";
 
 const axiosSecure = axios.create({
-  baseURL: "http://192.168.0.108:3000/api/v1",
+  baseURL: "https://job-platform-server-alpha.vercel.app/api/v1",
   withCredentials: true, // needed for refresh token cookie
 });
 
@@ -29,7 +29,6 @@ axiosSecure.interceptors.request.use(
 axiosSecure.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log(error, ">>>>>--------------------see the error 32")
     const originalRequest = error.config;
 
     const status = error.response?.status;
